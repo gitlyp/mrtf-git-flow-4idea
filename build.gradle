@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '0.4.16'
+    id 'org.jetbrains.intellij' version '1.1.4'
 }
 
 group 'com.github.xiaolyuh'
@@ -13,18 +13,18 @@ repositories {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile 'com.squareup.okhttp3:okhttp:3.6.0'
-    compile 'com.alibaba:fastjson:1.2.71'
+    testImplementation 'junit:junit:4.13.2'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.1'
+    implementation 'com.alibaba:fastjson:1.2.78'
 }
 
 intellij {
-    version '2020.2'
-    plugins 'git4idea', 'tasks'
-    intellij.updateSinceUntilBuild false
+    version ='2021.2'
+    plugins= ['git4idea', 'tasks']
+    intellij.updateSinceUntilBuild = false
 }
 patchPluginXml {
-    changeNotes """
+    changeNotes = """
         <em>1.1.21<em></br
         <em>1. 修复gitlib 解决冲突分支相互合并的问题 <em></br>   
         
