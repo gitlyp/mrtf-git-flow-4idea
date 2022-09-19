@@ -1,15 +1,22 @@
 package com.github.xiaolyuh.ui;
 
+import com.github.xiaolyuh.InitOptions;
 import com.github.xiaolyuh.MergeRequestOptions;
 import com.github.xiaolyuh.i18n.I18n;
 import com.github.xiaolyuh.i18n.I18nKey;
+import com.github.xiaolyuh.utils.ConfigUtil;
 import com.github.xiaolyuh.utils.StringUtils;
+import com.google.common.collect.Lists;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.ValidationInfo;
+import com.intellij.ui.CollectionComboBoxModel;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * @author yuhao.wang3
@@ -20,14 +27,20 @@ public class MergeRequestDialog extends DialogWrapper {
 
     private JTextField titleTextField;
     private JTextArea messageTextArea;
+    private JComboBox<String> targetBranchComboBox;
 
     private Project project;
 
-    public MergeRequestDialog(@Nullable Project project,String title, String message) {
+    public MergeRequestDialog(@Nullable Project project,String targetBranch, String title, String message) {
         super(project);
         this.project = project;
         setTitle(I18n.getContent(I18nKey.MERGE_REQUEST_DIALOG$TITLE));
         init();
+
+        assert project != null;
+        Optional<InitOptions> options = ConfigUtil.getConfig(project);
+        List<String> remoteBranches = Lists.newArrayList(options.get().getMasterBranch(),options.get().getReleaseBranch(),options.get().getTestBranch());
+        targetBranchComboBox.setModel(new CollectionComboBoxModel<>(remoteBranches, options.get().getReleaseBranch()));
 
         titleTextField.setText(title);
         messageTextArea.setText(message);
@@ -35,6 +48,7 @@ public class MergeRequestDialog extends DialogWrapper {
 
     public MergeRequestOptions getMergeRequestOptions() {
         MergeRequestOptions tagOptions = new MergeRequestOptions();
+        tagOptions.setTargetBranch(StringUtils.trim(Objects.requireNonNull(targetBranchComboBox.getSelectedItem()).toString()));
         tagOptions.setTitle(StringUtils.trim(titleTextField.getText()));
         tagOptions.setMessage(StringUtils.trim(messageTextArea.getText()));
         return tagOptions;

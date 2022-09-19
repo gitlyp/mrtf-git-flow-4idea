@@ -8,6 +8,11 @@ package com.github.xiaolyuh;
 public class MergeRequestOptions {
 
     /**
+     * 目标分支
+     */
+    private String targetBranch;
+
+    /**
      * 标题
      */
     private String title;
@@ -38,5 +43,13 @@ public class MergeRequestOptions {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getTargetBranch() {
+        return targetBranch;
+    }
+
+    public void setTargetBranch(String targetBranch) {
+        this.targetBranch = targetBranch;
     }
 }

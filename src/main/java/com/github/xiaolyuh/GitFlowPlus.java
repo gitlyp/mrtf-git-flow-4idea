@@ -120,6 +120,16 @@ public interface GitFlowPlus {
                                         TagOptions tagOptions);
 
     /**
+     * 合并分支 （merge request）
+     *
+     * @param repository   repository
+     * @param sourceBranch 源分支
+     * @param targetBranch 目标分支
+     * @return
+     */
+    GitCommandResult mergeBranch(GitRepository repository, String sourceBranch, String targetBranch);
+
+    /**
      * 加锁
      *
      * @param repository    GitCommandResult
@@ -191,8 +201,16 @@ public interface GitFlowPlus {
      * @param sourceBranch        源分支
      * @param targetBranch        目标分支
      * @param mergeRequestOptions merge request参数
-     * @return
+     * @return GitCommandResult
      */
     GitCommandResult mergeRequest(GitRepository repository, String sourceBranch, String targetBranch, MergeRequestOptions mergeRequestOptions);
 
+    /**
+     * pull 最新代码
+     *
+     * @param repository   repository
+     * @param targetBranch 目标分支
+     * @return GitCommandResult
+     */
+    GitCommandResult checkoutTargetBranchAndPull(GitRepository repository, String targetBranch);
 }

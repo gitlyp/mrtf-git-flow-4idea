@@ -174,6 +174,40 @@ public class GitFlowPlusImpl implements GitFlowPlus {
     }
 
     @Override
+    public GitCommandResult mergeBranch(GitRepository repository, String sourceBranch, String targetBranch) {
+        // 判断目标分支是否存在
+        GitCommandResult result = checkTargetBranchIsExist(repository, sourceBranch);
+        if (Objects.nonNull(result) && !result.success()) {
+            return result;
+        }
+
+        // 源分支拉取最新代码
+        result = checkoutTargetBranchAndPull(repository, sourceBranch);
+        if (!result.success()) {
+            return result;
+        }
+        git.checkout(repository, targetBranch);
+
+        // 合并代码
+        GitSimpleEventDetector mergeConflict = new GitSimpleEventDetector(GitSimpleEventDetector.Event.MERGE_CONFLICT);
+
+        result = git.merge(repository, sourceBranch, targetBranch, mergeConflict);
+
+        boolean allConflictsResolved = true;
+        if (mergeConflict.hasHappened()) {
+            // 解决冲突
+            allConflictsResolved = new MyMergeConflictResolver(repository, sourceBranch, targetBranch).merge();
+        }
+
+        if (!result.success() && !allConflictsResolved) {
+            return result;
+        }
+
+        // 切换到当前分支
+        return git.checkout(repository, sourceBranch);
+    }
+
+    @Override
     public boolean lock(GitRepository repository, String currentBranch) {
         GitCommandResult result = git.push(repository, currentBranch, Constants.LOCK_BRANCH_NAME, false);
 
@@ -293,7 +327,8 @@ public class GitFlowPlusImpl implements GitFlowPlus {
         return result.getOutputAsJoinedString().contains("new branch") || result.getErrorOutputAsJoinedString().contains("new branch");
     }
 
-    private GitCommandResult checkoutTargetBranchAndPull(GitRepository repository, String targetBranch) {
+    @Override
+    public GitCommandResult checkoutTargetBranchAndPull(GitRepository repository, String targetBranch) {
         // 切换到目标分支
         git.checkout(repository, targetBranch);
 
