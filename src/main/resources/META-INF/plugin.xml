@@ -42,7 +42,7 @@
     <depends>com.intellij.tasks</depends>
     <depends>Git4Idea</depends>
 
-    <idea-version since-build="191" until-build="213.*"/>
+    <!--<idea-version since-build="203" until-build="222.*"/>-->
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
@@ -51,6 +51,8 @@
         <!-- Add your extensions here -->
         <applicationService serviceInterface="com.github.xiaolyuh.Git"
                             serviceImplementation="com.github.xiaolyuh.GitImpl"/>
+
+        <notificationGroup displayType="BALLOON" id="GitFlowPlusNotification"/>
     </extensions>
 
     <project-components>

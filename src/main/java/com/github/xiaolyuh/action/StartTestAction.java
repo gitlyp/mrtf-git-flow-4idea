@@ -10,11 +10,9 @@ import com.github.xiaolyuh.valve.merge.Valve;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.IconLoader;
-import com.intellij.util.ReflectionUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * 提测
@@ -24,7 +22,7 @@ import java.util.Objects;
 public class StartTestAction extends AbstractMergeAction {
 
     public StartTestAction() {
-        super("提测", "将当前开发分支合并到test分支", IconLoader.getIcon("/icons/mergeToTest.svg", Objects.requireNonNull(ReflectionUtil.getGrandCallerClass())));
+        super("提测", "将当前开发分支合并到test分支", IconLoader.getIcon("/icons/mergeToTest.svg", AbstractNewBranchAction.class));
     }
 
     @Override
@@ -39,7 +37,7 @@ public class StartTestAction extends AbstractMergeAction {
 
     @Override
     protected String getDialogTitle(Project project) {
-        return I18nKey.START_TEST_ACTION$DIALOG_TITLE;
+        return I18n.getContent(I18nKey.START_TEST_ACTION$DIALOG_TITLE);
     }
 
     @Override
