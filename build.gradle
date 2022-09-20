@@ -1,12 +1,13 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '0.4.21'
+    id 'org.jetbrains.intellij' version '1.8.1'
 }
 
 group 'com.github.xiaolyuh'
-version '2.0.0'
+version pluginVersion
 
-sourceCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
 
 repositories {
     mavenCentral()
@@ -19,14 +20,18 @@ dependencies {
 }
 
 intellij {
-    version ='2021.2'
-    plugins= ['git4idea', 'tasks']
+    version = ideaVersion
+    plugins = ['git4idea', 'tasks']
     intellij.updateSinceUntilBuild = false
 }
+
 patchPluginXml {
-    changeNotes """
+    sinceBuild = mgfPluginSinceBuild
+    untilBuild = mgfPluginUntilBuild
+    changeNotes = """
         <em>1.1.6<em></br
-        <em>1. merge requet 目标分支可选 <em></br>   
+        <em>1. merge requet 支持目标分支可选 <em></br>   
+        <em>1. 支持2020.3、2021.*、2022.2 版本 <em></br> 
         
         <em>1.1.4<em></br
         <em>1. 修复gitlib 解决冲突分支相互合并的问题 <em></br>   
@@ -35,7 +40,6 @@ patchPluginXml {
         <em>1. 新增merge requet 标签功能 <em></br>   
         
         <em>1.1.0<em></br>
-        <em>1. 对2021.1的支持<em></br>   
         <em>2. 支持在本地发起Merge Request<em></br>   
         
         <em>1.0.13<em></br>
@@ -94,4 +98,6 @@ patchPluginXml {
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
