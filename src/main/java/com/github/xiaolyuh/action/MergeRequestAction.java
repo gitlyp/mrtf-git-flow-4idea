@@ -11,12 +11,12 @@ import com.github.xiaolyuh.utils.NotifyUtil;
 import com.github.xiaolyuh.valve.merge.Valve;
 import com.intellij.ide.BrowserUtil;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.IconLoader;
 import com.intellij.openapi.vfs.VirtualFileManager;
-import com.intellij.util.ReflectionUtil;
 import git4idea.commands.GitCommandResult;
 import git4idea.repo.GitRepository;
 import org.jetbrains.annotations.NotNull;
@@ -33,7 +33,7 @@ public class MergeRequestAction extends AbstractMergeAction {
     protected GitFlowPlus gitFlowPlus = GitFlowPlus.getInstance();
 
     public MergeRequestAction() {
-        super("Merge Request", "发起 code review", IconLoader.getIcon("/icons/mergeToTest.svg", Objects.requireNonNull(ReflectionUtil.getGrandCallerClass())));
+        super("Merge Request", "发起 code review", IconLoader.getIcon("/icons/mergeToTest.svg", AbstractNewBranchAction.class));
     }
 
     @Override
@@ -45,7 +45,6 @@ public class MergeRequestAction extends AbstractMergeAction {
     public void actionPerformed(AnActionEvent event) {
         Project project = event.getProject();
         final String currentBranch = gitFlowPlus.getCurrentBranch(project);
-        final String targetBranch = ConfigUtil.getConfig(project).get().getTestBranch();
         final GitRepository repository = GitBranchUtil.getCurrentRepository(project);
         if (Objects.isNull(repository)) {
             return;
@@ -53,7 +52,8 @@ public class MergeRequestAction extends AbstractMergeAction {
 
         GitCommandResult result = gitFlowPlus.getLocalLastCommit(repository, currentBranch);
         String[] msgs = result.getOutputAsJoinedString().split("-body:");
-        MergeRequestDialog mergeRequestDialog = new MergeRequestDialog(project, msgs.length >= 1 ? msgs[0] : "", msgs.length >= 2 ? msgs[1] : "");
+        String release = ConfigUtil.getConfig(project).get().getReleaseBranch();
+        MergeRequestDialog mergeRequestDialog = new MergeRequestDialog(project, release, msgs.length >= 1 ? msgs[0] : "", msgs.length >= 2 ? msgs[1] : "");
         mergeRequestDialog.show();
         if (!mergeRequestDialog.isOK()) {
             return;
@@ -64,11 +64,19 @@ public class MergeRequestAction extends AbstractMergeAction {
             public void run(@NotNull ProgressIndicator indicator) {
                 NotifyUtil.notifyGitCommand(event.getProject(), "===================================================================================");
 
-                String tempBranchName = currentBranch + "_temp";
+                String targetBranch = mergeRequestDialog.getMergeRequestOptions().getTargetBranch();
+
+                String tempBranchName = currentBranch + "_mr";
                 // 删除分支
                 GitCommandResult result = gitFlowPlus.deleteBranch(repository, currentBranch, tempBranchName);
                 // 新建分支
                 result = gitFlowPlus.newNewBranchByLocalBranch(repository, currentBranch, tempBranchName);
+                if (!result.success()) {
+                    NotifyUtil.notifyError(project, "Error", result.getErrorOutputAsJoinedString());
+                    return;
+                }
+                // 将目标分支合并到当前future分支
+                result = gitFlowPlus.mergeBranch(repository, targetBranch, tempBranchName);
                 if (!result.success()) {
                     NotifyUtil.notifyError(project, "Error", result.getErrorOutputAsJoinedString());
                     return;

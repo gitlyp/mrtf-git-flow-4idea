@@ -1,38 +1,45 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '0.4.16'
+    id 'org.jetbrains.intellij' version '1.8.1'
 }
 
 group 'com.github.xiaolyuh'
-version '1.1.4'
+version pluginVersion
 
-sourceCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile 'com.squareup.okhttp3:okhttp:3.6.0'
-    compile 'com.alibaba:fastjson:1.2.71'
+    testImplementation 'junit:junit:4.13.2'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.1'
+    implementation 'com.alibaba:fastjson:1.2.78'
 }
 
 intellij {
-    version '2020.2'
-    plugins 'git4idea', 'tasks'
-    intellij.updateSinceUntilBuild false
+    version = ideaVersion
+    plugins = ['git4idea', 'tasks']
+    intellij.updateSinceUntilBuild = false
 }
+
 patchPluginXml {
-    changeNotes """
-        <em>1.1.21<em></br
+    sinceBuild = mgfPluginSinceBuild
+    untilBuild = mgfPluginUntilBuild
+    changeNotes = """
+        <em>1.1.6<em></br
+        <em>1. merge requet 目标分支可选 <em></br>   
+        <em>1. 支持2021版本 <em></br> 
+        
+        <em>1.1.4<em></br
         <em>1. 修复gitlib 解决冲突分支相互合并的问题 <em></br>   
         
         <em>1.1.1<em></br>
         <em>1. 新增merge requet 标签功能 <em></br>   
         
         <em>1.1.0<em></br>
-        <em>1. 对2021.1的支持<em></br>   
         <em>2. 支持在本地发起Merge Request<em></br>   
         
         <em>1.0.13<em></br>
@@ -91,4 +98,6 @@ patchPluginXml {
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 

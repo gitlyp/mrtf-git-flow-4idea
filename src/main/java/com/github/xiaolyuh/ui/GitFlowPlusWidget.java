@@ -143,10 +143,4 @@ public class GitFlowPlusWidget extends EditorBasedWidget implements StatusBarWid
     public String ID() {
         return GitFlowPlusWidget.class.getName();
     }
-
-    @Nullable
-    @Override
-    public WidgetPresentation getPresentation(@NotNull PlatformType type) {
-        return null;
-    }
 }
