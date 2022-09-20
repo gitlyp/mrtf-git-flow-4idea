@@ -8,17 +8,17 @@
         This is a branch management plugin for the <a href="https://xiaolyuh.blog.csdn.net/article/details/105180250"> mrtf git flow </a> (master, release, test, feature) process <a href="https://xiaolyuh.blog.csdn.net/article/details/105150446"> Usage Guide </a>. <br>
         The biggest advantage is to reduce the operation of switching branches and merging branches in the agile development process, and reduce the labor cost of branch management.<br>     
      <br>
-     The main functions are as follows: <br>
-      1. Plug-in configuration files can be added to GIT version management and shared within the team; <br>
-      2. New development branch and repair branch based on origin / master; <br>
-      3. Rebuild test branch and release branch based on origin / master; <br>
-      4. After the development is completed, merge the development branch into the test branch; <br>
-      4. After the test is completed, the development branch is merged into the release branch, and the release branch is locked; <br>
-      5. After the release is completed, merge the release branch into the origin / master branch; <br>
-      6. Failure to release will unlock the release branch; <br>
-      7. Only those who lock the release branch can click [release complete] and [release failed]; <br>
-      8. All executed git commands can be viewed in "Event Log"; <br>
-      9. Support to initiate Merge Request locally; <br>
+                 The main functions are as follows: <br>
+                     1. Plug-in configuration files can be added to GIT version management and shared within the team; <br>
+                     2. New development branch and repair branch based on origin / master; <br>
+                     3. Rebuild test branch and release branch based on origin / master; <br>
+                     4. After the development is completed, merge the development branch into the test branch; <br>
+                     4. After the test is completed, the development branch is merged into the release branch, and the release branch is locked; <br>
+                     5. After the release is completed, merge the release branch into the origin / master branch; <br>
+                     6. Failure to release will unlock the release branch; <br>
+                     7. Only those who lock the release branch can click [release complete] and [release failed]; <br>
+                     8. All executed git commands can be viewed in "Event Log"; <br>
+                     9. Support to initiate Merge Request locally; <br>
 
         <br>
     这是一个适用于<a href="https://xiaolyuh.blog.csdn.net/article/details/105180250">mrtf git flow</a> (master,release,test,feature) 流程的分支管理插件 <a href="https://xiaolyuh.blog.csdn.net/article/details/105150446">使用指南</a>。<br>
@@ -42,7 +42,7 @@
     <depends>com.intellij.tasks</depends>
     <depends>Git4Idea</depends>
 
-    <idea-version since-build="191" until-build="212.*"/>
+    <idea-version since-build="191" until-build="213.*"/>
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
@@ -61,8 +61,7 @@
 
     <actions>
         <!-- Add your actions here -->
-        <group id="GitFlowPlus.Menu" text="GitFlowPlus" description="GIT分支管理" icon="/icons/icon.svg"
-               popup="true">
+        <group id="GitFlowPlus.Menu" text="GitFlowPlus" description="GIT分支管理" icon="/icons/icon.svg" popup="true">
 
             <add-to-group group-id="MainToolBar" anchor="last"/>
 
