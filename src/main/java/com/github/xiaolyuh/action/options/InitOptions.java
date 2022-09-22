@@ -1,4 +1,6 @@
-package com.github.xiaolyuh;
+package com.github.xiaolyuh.action.options;
+
+import com.github.xiaolyuh.i18n.LanguageEnum;
 
 import java.util.Objects;
 

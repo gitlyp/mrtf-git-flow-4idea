@@ -31,9 +31,9 @@ public class FinishReleaseAction extends AbstractMergeAction {
     @Override
     protected void setEnabledAndText(AnActionEvent event) {
         event.getPresentation().setText(I18n.getContent(I18nKey.FINISH_RELEASE_ACTION$TEXT));
-        if (event.getPresentation().isEnabled()) {
-            event.getPresentation().setEnabled(gitFlowPlus.isLock(event.getProject()));
-        }
+//        if (event.getPresentation().isEnabled()) {
+//            event.getPresentation().setEnabled(gitFlowPlus.isLock(event.getProject()));
+//        }
     }
 
     @Override
@@ -73,9 +73,9 @@ public class FinishReleaseAction extends AbstractMergeAction {
     protected List<Valve> getValves() {
         List<Valve> valves = new ArrayList<>();
         valves.add(ChangeFileValve.getInstance());
-        valves.add(UnLockCheckValve.getInstance());
+//        valves.add(UnLockCheckValve.getInstance());
         valves.add(MergeValve.getInstance());
-        valves.add(UnLockValve.getInstance());
+//        valves.add(UnLockValve.getInstance());
         return valves;
     }
 }

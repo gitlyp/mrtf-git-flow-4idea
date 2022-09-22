@@ -27,6 +27,6 @@ public class HelpAction extends AnAction {
 
     @Override
     public void actionPerformed(AnActionEvent event) {
-        BrowserUtil.browse("https://xiaolyuh.blog.csdn.net/article/details/105150446");
+        BrowserUtil.browse("https://github.com/xiaolyuh/mrtf-git-flow-4idea");
     }
 }

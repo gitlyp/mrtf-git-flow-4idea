@@ -1,6 +1,6 @@
 package com.github.xiaolyuh.action;
 
-import com.github.xiaolyuh.GitFlowPlus;
+import com.github.xiaolyuh.git.GitFlowPlus;
 import com.github.xiaolyuh.i18n.I18n;
 import com.github.xiaolyuh.i18n.I18nKey;
 import com.github.xiaolyuh.utils.ConfigUtil;
@@ -52,7 +52,7 @@ public class StartReleaseAction extends AbstractMergeAction {
     protected List<Valve> getValves() {
         List<Valve> valves = new ArrayList<>();
         valves.add(ChangeFileValve.getInstance());
-        valves.add(LockValve.getInstance());
+//        valves.add(LockValve.getInstance());
         valves.add(MergeValve.getInstance());
         valves.add(ReleaseLockNotifyValve.getInstance());
         return valves;

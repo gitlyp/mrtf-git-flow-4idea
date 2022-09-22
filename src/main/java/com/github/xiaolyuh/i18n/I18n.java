@@ -1,7 +1,6 @@
 package com.github.xiaolyuh.i18n;
 
-import com.github.xiaolyuh.InitOptions;
-import com.github.xiaolyuh.LanguageEnum;
+import com.github.xiaolyuh.action.options.InitOptions;
 import com.github.xiaolyuh.utils.ConfigUtil;
 import com.intellij.openapi.project.Project;
 

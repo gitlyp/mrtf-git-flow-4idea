@@ -1,4 +1,4 @@
-package com.github.xiaolyuh.utils;
+package com.github.xiaolyuh.notify;
 
 import com.alibaba.fastjson.JSON;
 import okhttp3.*;

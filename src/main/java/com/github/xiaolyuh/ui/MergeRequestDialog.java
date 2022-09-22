@@ -1,7 +1,7 @@
 package com.github.xiaolyuh.ui;
 
-import com.github.xiaolyuh.InitOptions;
-import com.github.xiaolyuh.MergeRequestOptions;
+import com.github.xiaolyuh.action.options.InitOptions;
+import com.github.xiaolyuh.action.options.MergeRequestOptions;
 import com.github.xiaolyuh.i18n.I18n;
 import com.github.xiaolyuh.i18n.I18nKey;
 import com.github.xiaolyuh.utils.ConfigUtil;
@@ -29,17 +29,14 @@ public class MergeRequestDialog extends DialogWrapper {
     private JTextArea messageTextArea;
     private JComboBox<String> targetBranchComboBox;
 
-    private Project project;
-
-    public MergeRequestDialog(@Nullable Project project,String targetBranch, String title, String message) {
+    public MergeRequestDialog(@Nullable Project project, String title, String message) {
         super(project);
-        this.project = project;
         setTitle(I18n.getContent(I18nKey.MERGE_REQUEST_DIALOG$TITLE));
         init();
 
         assert project != null;
         Optional<InitOptions> options = ConfigUtil.getConfig(project);
-        List<String> remoteBranches = Lists.newArrayList(options.get().getMasterBranch(),options.get().getReleaseBranch(),options.get().getTestBranch());
+        List<String> remoteBranches = Lists.newArrayList(options.get().getMasterBranch(), options.get().getReleaseBranch(), options.get().getTestBranch());
         targetBranchComboBox.setModel(new CollectionComboBoxModel<>(remoteBranches, options.get().getReleaseBranch()));
 
         titleTextField.setText(title);

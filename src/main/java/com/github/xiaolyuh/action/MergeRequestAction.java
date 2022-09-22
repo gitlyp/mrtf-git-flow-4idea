@@ -1,17 +1,15 @@
 package com.github.xiaolyuh.action;
 
-import com.github.xiaolyuh.GitFlowPlus;
+import com.github.xiaolyuh.git.GitFlowPlus;
 import com.github.xiaolyuh.i18n.I18n;
 import com.github.xiaolyuh.i18n.I18nKey;
+import com.github.xiaolyuh.notify.NotifyUtil;
 import com.github.xiaolyuh.ui.MergeRequestDialog;
 import com.github.xiaolyuh.utils.CollectionUtils;
-import com.github.xiaolyuh.utils.ConfigUtil;
 import com.github.xiaolyuh.utils.GitBranchUtil;
-import com.github.xiaolyuh.utils.NotifyUtil;
 import com.github.xiaolyuh.valve.merge.Valve;
 import com.intellij.ide.BrowserUtil;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
@@ -38,22 +36,29 @@ public class MergeRequestAction extends AbstractMergeAction {
 
     @Override
     protected void setEnabledAndText(AnActionEvent event) {
+        event.getPresentation().setEnabled(true);
         event.getPresentation().setText(I18n.getContent(I18nKey.MERGE_REQUEST_ACTION$TEXT));
     }
 
     @Override
     public void actionPerformed(AnActionEvent event) {
         Project project = event.getProject();
+        assert project != null;
         final String currentBranch = gitFlowPlus.getCurrentBranch(project);
         final GitRepository repository = GitBranchUtil.getCurrentRepository(project);
         if (Objects.isNull(repository)) {
             return;
         }
 
+        // 校验是否有文件没有提交
+        if (gitFlowPlus.isExistChangeFile(project)) {
+            return;
+        }
+
+        // 获取最后一次提交信息
         GitCommandResult result = gitFlowPlus.getLocalLastCommit(repository, currentBranch);
         String[] msgs = result.getOutputAsJoinedString().split("-body:");
-        String release = ConfigUtil.getConfig(project).get().getReleaseBranch();
-        MergeRequestDialog mergeRequestDialog = new MergeRequestDialog(project, release, msgs.length >= 1 ? msgs[0] : "", msgs.length >= 2 ? msgs[1] : "");
+        MergeRequestDialog mergeRequestDialog = new MergeRequestDialog(project, msgs.length >= 1 ? msgs[0] : "", msgs.length >= 2 ? msgs[1] : "");
         mergeRequestDialog.show();
         if (!mergeRequestDialog.isOK()) {
             return;
@@ -64,23 +69,23 @@ public class MergeRequestAction extends AbstractMergeAction {
             public void run(@NotNull ProgressIndicator indicator) {
                 NotifyUtil.notifyGitCommand(event.getProject(), "===================================================================================");
 
-                String targetBranch = mergeRequestDialog.getMergeRequestOptions().getTargetBranch();
-
+                // 新建临时分支
                 String tempBranchName = currentBranch + "_mr";
-                // 删除分支
                 GitCommandResult result = gitFlowPlus.deleteBranch(repository, currentBranch, tempBranchName);
-                // 新建分支
                 result = gitFlowPlus.newNewBranchByLocalBranch(repository, currentBranch, tempBranchName);
                 if (!result.success()) {
                     NotifyUtil.notifyError(project, "Error", result.getErrorOutputAsJoinedString());
                     return;
                 }
+
                 // 将目标分支合并到当前future分支
+                String targetBranch = mergeRequestDialog.getMergeRequestOptions().getTargetBranch();
                 result = gitFlowPlus.mergeBranch(repository, targetBranch, tempBranchName);
                 if (!result.success()) {
                     NotifyUtil.notifyError(project, "Error", result.getErrorOutputAsJoinedString());
                     return;
                 }
+
                 // 发起merge request
                 result = gitFlowPlus.mergeRequest(repository, tempBranchName, targetBranch, mergeRequestDialog.getMergeRequestOptions());
                 if (!result.success()) {
@@ -92,13 +97,16 @@ public class MergeRequestAction extends AbstractMergeAction {
                     address = address.split("   ")[1];
                     BrowserUtil.browse(address);
                 }
+
                 // 删除本地临时分支
                 result = gitFlowPlus.deleteLocalBranch(repository, currentBranch, tempBranchName);
                 if (!result.success()) {
                     NotifyUtil.notifyError(project, "Error", result.getErrorOutputAsJoinedString());
                 }
+
                 // 刷新
                 repository.update();
+                assert myProject != null;
                 myProject.getMessageBus().syncPublisher(GitRepository.GIT_REPO_CHANGE).repositoryChanged(repository);
                 VirtualFileManager.getInstance().asyncRefresh(null);
             }

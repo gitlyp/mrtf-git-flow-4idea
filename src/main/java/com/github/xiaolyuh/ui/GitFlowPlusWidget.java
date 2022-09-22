@@ -30,7 +30,6 @@ import com.intellij.ui.ClickListener;
 import com.intellij.ui.awt.RelativePoint;
 import com.intellij.ui.popup.PopupFactoryImpl;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.awt.*;

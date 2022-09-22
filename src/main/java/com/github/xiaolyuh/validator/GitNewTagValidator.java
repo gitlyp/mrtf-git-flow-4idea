@@ -1,4 +1,4 @@
-package com.github.xiaolyuh;
+package com.github.xiaolyuh.validator;
 
 import com.intellij.openapi.ui.InputValidatorEx;
 import git4idea.validators.GitRefNameValidator;

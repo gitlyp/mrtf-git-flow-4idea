@@ -1,10 +1,10 @@
 package com.github.xiaolyuh.valve.merge;
 
-import com.github.xiaolyuh.TagOptions;
+import com.github.xiaolyuh.action.options.TagOptions;
 import com.github.xiaolyuh.i18n.I18n;
 import com.github.xiaolyuh.i18n.I18nKey;
 import com.github.xiaolyuh.utils.ConfigUtil;
-import com.github.xiaolyuh.utils.NotifyUtil;
+import com.github.xiaolyuh.notify.NotifyUtil;
 import com.intellij.openapi.application.ReadAction;
 import com.intellij.openapi.project.Project;
 import git4idea.commands.GitCommandResult;

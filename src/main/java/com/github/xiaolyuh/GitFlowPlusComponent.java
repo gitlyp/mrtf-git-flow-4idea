@@ -2,7 +2,6 @@ package com.github.xiaolyuh;
 
 import com.github.xiaolyuh.ui.GitFlowPlusWidget;
 import com.intellij.openapi.components.NamedComponent;
-import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.ProjectLevelVcsManager;
 import com.intellij.openapi.vcs.VcsListener;

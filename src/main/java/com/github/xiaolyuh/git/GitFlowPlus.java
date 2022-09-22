@@ -1,5 +1,7 @@
-package com.github.xiaolyuh;
+package com.github.xiaolyuh.git;
 
+import com.github.xiaolyuh.action.options.MergeRequestOptions;
+import com.github.xiaolyuh.action.options.TagOptions;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 import git4idea.commands.GitCommandResult;

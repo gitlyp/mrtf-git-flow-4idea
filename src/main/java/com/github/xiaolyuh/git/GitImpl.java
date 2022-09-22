@@ -1,8 +1,10 @@
-package com.github.xiaolyuh;
+package com.github.xiaolyuh.git;
 
+import com.github.xiaolyuh.Constants;
+import com.github.xiaolyuh.action.options.MergeRequestOptions;
 import com.github.xiaolyuh.utils.CollectionUtils;
 import com.github.xiaolyuh.utils.ConfigUtil;
-import com.github.xiaolyuh.utils.NotifyUtil;
+import com.github.xiaolyuh.notify.NotifyUtil;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.util.Key;
 import git4idea.commands.GitCommand;

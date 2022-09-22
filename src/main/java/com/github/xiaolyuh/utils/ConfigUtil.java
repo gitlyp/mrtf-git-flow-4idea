@@ -2,7 +2,7 @@ package com.github.xiaolyuh.utils;
 
 import com.alibaba.fastjson.JSON;
 import com.github.xiaolyuh.Constants;
-import com.github.xiaolyuh.InitOptions;
+import com.github.xiaolyuh.action.options.InitOptions;
 import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;

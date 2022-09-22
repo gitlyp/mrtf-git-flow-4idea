@@ -1,6 +1,6 @@
 package com.github.xiaolyuh.valve.merge;
 
-import com.github.xiaolyuh.TagOptions;
+import com.github.xiaolyuh.action.options.TagOptions;
 import com.intellij.openapi.project.Project;
 import git4idea.repo.GitRepository;
 

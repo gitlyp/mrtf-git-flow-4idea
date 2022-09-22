@@ -1,17 +1,13 @@
 package com.github.xiaolyuh.action;
 
-import com.github.xiaolyuh.GitNewBranchNameValidator;
+import com.github.xiaolyuh.validator.GitNewBranchNameValidator;
 import com.github.xiaolyuh.i18n.I18n;
 import com.github.xiaolyuh.i18n.I18nKey;
 import com.github.xiaolyuh.utils.ConfigUtil;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.util.IconLoader;
 import git4idea.GitUtil;
-import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
 
 /**
  * 新建修复分支

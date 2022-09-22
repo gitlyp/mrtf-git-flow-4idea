@@ -3,34 +3,28 @@ GitFlowPlus4Idea插件是一款基于[mrtf-git-flow](https://xiaolyuh.blog.csdn.
 
 ![mrrtf.png](https://github.com/xiaolyuh/mrtf-git-flow-4idea/blob/master/images/mrrtf.png)
 
-> 在初始化插件之前必须先保证仓库中具有```origin/master```分支。
-
 主要功能如下：
 - 插件配置文件可以加入GIT版本管理，在团队内部共享；
 - 基于```origin/master```新建开发分支和修复分支；
 - 基于```origin/master```重建测试分支和发布分支；
 - 开发完成后将开发分支合并到测试分支；
 - 支持在本地发起Merge Request；
-- 测试完成后将开发分支合并到发布分支，并锁定发布分支；
+- 测试完成后将开发分支合并到发布分支；
 - 发布完成后将发布分支合并到```origin/master```分支；
-- 发布失败将解除发布分支的锁定；
-- 只有锁定发布分支的人才能点[发布完成]和[发布失败]
-- 所有执行的git命令都可以在"Event Log"查看
 
 # 主要解决的问题
-1. 新建特性分支操作过程复杂，且容易出错；
-2. 提测等环节合并代码出错，老是将测试分支代码带上线；
-3. 解决多人同时发布，将未完成预发布测试的代码带上线；
-4. 解决发布完成后忘记将代码同步到```origin/master```分支；
-5. 发布完成后忘记打Tag；
+1. 简化日常工作中分支操作步骤，比如新建分支、提测、发布、Merge Request等操作；
+2. 降低分支操作过程中发生错误的概率；
+3. 通过新增临时分支策略来解决Merge Request冲突问题；
 
 # Switch To English
 ![switch_to_english.gif](https://github.com/xiaolyuh/mrtf-git-flow-4idea/blob/master/images/switch_to_english.gif)
 
 # 安装
 ## 在线安装
-![local_install.gif](https://github.com/xiaolyuh/mrtf-git-flow-4idea/blob/master/images/online_install.gif)
+直接在IDEA插件市场搜索```GitFlowPlus```，如图：
 
+![local_install.gif](https://github.com/xiaolyuh/mrtf-git-flow-4idea/blob/master/images/online_install.gif)
 
 ## 离线安装
 下载地址: [https://github.com/xiaolyuh/mrtf-git-flow-4idea/releases](https://github.com/xiaolyuh/mrtf-git-flow-4idea/releases)
@@ -41,11 +35,11 @@ GitFlowPlus4Idea插件是一款基于[mrtf-git-flow](https://xiaolyuh.blog.csdn.
 ![插件入口.png](https://github.com/xiaolyuh/mrtf-git-flow-4idea/blob/master/images/main.png)
 
 插件入口有2个：
-1. 在Toolbar栏，这个需要显示Toolbar（View->Toolbar）
+1. 在Toolbar栏，这个需要显示Toolbar（View->Appearance->Toolbar）
 2. 在Statusbar中
 
-# 配置管理
-每个仓库都需要进行插件初始化，配置完成后会生成一个```mrtf-git-flow.config```配置文件，该文件可以添加到git版本管理中进行组内同步，同步完成后组内成员可以共享配置。
+# 插件配置
+每个仓库都需要进行插件初始化，配置完成后会生成一个```git-flow-plus.config```配置文件，**该文件需要添加到git版本管理中进行组内同步**，同步完成后组内成员可以共享配置。
 
 ![init.gif](https://github.com/xiaolyuh/mrtf-git-flow-4idea/blob/master/images/init.gif)
 
@@ -96,6 +90,21 @@ git push origin rebuildBranchName:rebuildBranchName --tag  --set-upstream
 > 如果当前的发布分支处于锁定状态，那么将不允许重建发布分支。
 
 执行命令和重建测试分支一样。
+
+# Merge Request
+```Merge Request```会提取最后一次提交信息作为```Merge Request```的信息，且**会根据当前开发分支新建一个临时用于MR操作**。提交代码规范可以参考：
+```
+feat(web) XM2231501-5401【公务用车】包车预约时间取消司机端限制
+
+背景:
+解决订单自动收车漏洞
+修改：
+1. 新增包车白名单
+影响：
+1、包车下单
+```
+
+![merge-request.gif](https://github.com/xiaolyuh/mrtf-git-flow-4idea/blob/master/images/merge-request.gif)
 
 # 提测
 提测会将当前分支合并到```origin/test```，在合并过程中如果出现冲突并且选择未解决，那么当前分支会切换到本地```test分支```，等待解决冲突；如果没有任何异常情况，那么合并完成后当前分支不会发生切换。
@@ -207,9 +216,9 @@ git fetch origin （更新本地仓库缓存）
 git push origin --delete GFP_LOCK_BRANCH_NAME（解锁）
 ```
 
-
-# 帮助
-点击帮助会直接跳转插件首页
+# 注意事项
+> 在初始化插件之前必须先保证仓库中具有```origin/master```分支。
+> 每次使用插件操作分支时需保证本地文件均一提交。
 
 
 # 作者信息

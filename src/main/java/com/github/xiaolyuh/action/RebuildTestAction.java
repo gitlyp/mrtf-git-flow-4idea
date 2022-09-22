@@ -24,9 +24,9 @@ public class RebuildTestAction extends AbstractNewBranchAction {
     @Override
     protected void setEnabledAndText(AnActionEvent event) {
         event.getPresentation().setText(I18n.getContent(I18nKey.REBUILD_TEST_ACTION$TEXT));
-        if (event.getPresentation().isEnabled()) {
-            event.getPresentation().setEnabled(!gitFlowPlus.isLock(event.getProject()));
-        }
+//        if (event.getPresentation().isEnabled()) {
+//            event.getPresentation().setEnabled(!gitFlowPlus.isLock(event.getProject()));
+//        }
     }
 
     @Override

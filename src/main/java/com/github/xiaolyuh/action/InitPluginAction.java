@@ -1,14 +1,14 @@
 package com.github.xiaolyuh.action;
 
 import com.alibaba.fastjson.JSON;
-import com.github.xiaolyuh.GitFlowPlus;
-import com.github.xiaolyuh.InitOptions;
+import com.github.xiaolyuh.git.GitFlowPlus;
+import com.github.xiaolyuh.action.options.InitOptions;
 import com.github.xiaolyuh.i18n.I18n;
 import com.github.xiaolyuh.i18n.I18nKey;
 import com.github.xiaolyuh.ui.InitPluginDialog;
 import com.github.xiaolyuh.utils.ConfigUtil;
 import com.github.xiaolyuh.utils.GitBranchUtil;
-import com.github.xiaolyuh.utils.NotifyUtil;
+import com.github.xiaolyuh.notify.NotifyUtil;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.progress.ProgressIndicator;

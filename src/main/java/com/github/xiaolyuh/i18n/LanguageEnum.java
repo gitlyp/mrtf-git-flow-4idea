@@ -1,4 +1,4 @@
-package com.github.xiaolyuh;
+package com.github.xiaolyuh.i18n;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,16 +8,17 @@ import java.util.List;
  * @since 2020/4/7 20:20
  */
 public enum LanguageEnum {
+    /**
+     * Constants
+     */
     CN("中文", "中文", "language_cn.properties"),
     EN("English", "英文", "language_en.properties");
 
-    private String language;
-    private String lable;
-    private String file;
+    private final String language;
+    private final String file;
 
     LanguageEnum(String language, String lable, String file) {
         this.language = language;
-        this.lable = lable;
         this.file = file;
     }
 
@@ -53,4 +54,5 @@ public enum LanguageEnum {
 
     public String getFile() {
         return file;
-    }}
+    }
+}

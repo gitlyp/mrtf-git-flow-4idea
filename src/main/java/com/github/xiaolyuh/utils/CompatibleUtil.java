@@ -1,5 +1,6 @@
 package com.github.xiaolyuh.utils;
 
+import com.github.xiaolyuh.notify.NotifyUtil;
 import com.intellij.openapi.application.ApplicationInfo;
 import com.intellij.openapi.util.BuildNumber;
 import com.intellij.vcs.log.Hash;
