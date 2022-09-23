@@ -4,18 +4,17 @@
 ![mrrtf.png](https://github.com/xiaolyuh/mrtf-git-flow-4idea/blob/master/images/mrrtf.png)
 
 主要功能如下：
-- 插件配置文件可以加入GIT版本管理，在团队内部共享；
-- 基于```origin/master```新建开发分支和修复分支；
-- 基于```origin/master```重建测试分支和发布分支；
-- 开发完成后将开发分支合并到测试分支；
-- 支持在本地发起Merge Request；
-- 测试完成后将开发分支合并到发布分支；
-- 发布完成后将发布分支合并到```origin/master```分支；
+- 基于主干分支快速新建开发分支和修复分支；
+- 基于主干分支快速重建测试分支和发布分支；
+- 开发完成后将快速将开发分支合并到测试分支；
+- 开发完成后快速在IDEA发起Merge Request到远程目标分支；
+- 发布完成后快速将发布分支合并到主干分支并打TAG；
 
 # 主要解决的问题
 1. 简化日常工作中分支操作步骤，比如新建分支、提测、发布、Merge Request等操作；
 2. 降低分支操作过程中发生错误的概率；
 3. 通过新增临时分支策略来解决Merge Request冲突问题；
+
 
 # Switch To English
 ![switch_to_english.gif](https://github.com/xiaolyuh/mrtf-git-flow-4idea/blob/master/images/switch_to_english.gif)
@@ -41,6 +40,8 @@
 # 插件配置
 每个仓库都需要进行插件初始化，配置完成后会生成一个```git-flow-plus.config```配置文件，**该文件需要添加到git版本管理中进行组内同步**，同步完成后组内成员可以共享配置。
 
+> 必须配置**主干分支**、**发布分支**、**测试分支**，且不能是同一个分支。
+
 ![init.gif](https://github.com/xiaolyuh/mrtf-git-flow-4idea/blob/master/images/init.gif)
 
 
@@ -58,7 +59,8 @@ xxx 服务发布分支已被锁定，最后一次操作：
 ```
 
 # 新建分支
-新建开发分支和修复分支都会直接从```origin/master```新建分支，新建分支后会自动切换到新建后的分支。
+新建开发分支和修复分支都会直接从最新的**主干**分支新切一个开发分支出来。
+
 ![new_branch.gif](https://github.com/xiaolyuh/mrtf-git-flow-4idea/blob/master/images/new_branch.gif)
 
 执行命令：
@@ -68,11 +70,13 @@ git checkout newBranchName --force
 git push origin newBranchName:newBranchName --tag  --set-upstream
 ```
 
-> 如果本地有修改文件未提交是不允许新建和重建分支的
+> **如果本地有未提交文件是不允许新建和重建分支的**
 
 
 # 重建测试分支
-重建测试分支会直接从```origin/master```新建分支一个测试分支，原来的测试分支会被直接删除。
+重建测试分支会直接从最新的**主干**分支新切一个测试分支出来，原来的测试分支会被直接删除。
+
+> 如果当前的发布分支处于锁定状态，那么将不允许重建发布分支。
 
 执行命令：
 ```git
@@ -86,7 +90,8 @@ git push origin rebuildBranchName:rebuildBranchName --tag  --set-upstream
 ```
 
 # 重建发布分支
-重建发布分支会直接从```origin/master```新建分支一个发布分支，原来的发布分支会被直接删除。
+重建发布分支会直接从最新的**主干**分支新切一个发布分支出来，原来的发布分支会被直接删除。
+
 > 如果当前的发布分支处于锁定状态，那么将不允许重建发布分支。
 
 执行命令和重建测试分支一样。
@@ -133,8 +138,10 @@ git -c core.quotepath=false -c log.showSignature=false branch -D release_mr
 ```
 
 # 提测
-提测会将当前分支合并到```origin/test```，在合并过程中如果出现冲突并且选择未解决，那么当前分支会切换到本地```test分支```，等待解决冲突；如果没有任何异常情况，那么合并完成后当前分支不会发生切换。
-> 当前分支必须是开发分支或者修复分支时，才允许提测。
+提测会将当前分支合并到**测试**分支，在合并过程中如果出现冲突并且选择未解决，那么当前分支会切换到本地```test分支```，等待解决冲突；如果没有任何异常情况，那么合并完成后当前分支不会发生切换。
+
+> **当前分支必须是开发分支或者修复分支时，才允许提测。**
+
 ![test.gif](https://github.com/xiaolyuh/mrtf-git-flow-4idea/blob/master/images/test.gif)
 
 执行命令：
@@ -159,7 +166,7 @@ git checkout featureBranchName --force
 ```
 
 # 开始发布
-开始发布会将当前分支合并到```origin/release```，并且锁定发布分支，如果配置了钉钉的机器人Token，那么还会往钉钉群发送一条发布分支锁定消息。
+开始发布会将当前分支合并到**发布分支**，如果配置了钉钉的机器人Token，那么还会往钉钉群发送一条发布分支锁定消息。
 
 发布分支一旦锁定后，其他人将不能再进行发布，如果确实需要发布有两种解决方式：
 1. 让第一个发布人点发布完成，发布完成会将发布分支合并到```origin/master```，并解除发布分支锁定。
@@ -243,9 +250,9 @@ git push origin --delete GFP_LOCK_BRANCH_NAME（解锁）
 ```
 
 # 注意事项
-> 在初始化插件之前必须先保证仓库中具有```origin/master```分支。
+> 插件初始化时必须配置**主干分支**、**发布分支**、**测试分支**，主干分支必须存在且不能和发布分支是同一个分支。
 > 每次使用插件操作分支时需保证本地文件均一提交。
-> 需要如下命令 ```git config pull.rebase false```
+> 需要如下命令 ```git config pull.rebase false```。
 
 
 # 作者信息
