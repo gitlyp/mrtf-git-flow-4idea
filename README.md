@@ -106,6 +106,32 @@ feat(web) XM2231501-5401【公务用车】包车预约时间取消司机端限�
 
 ![merge-request.gif](https://github.com/xiaolyuh/mrtf-git-flow-4idea/blob/master/images/merge-request.gif)
 
+执行命令：
+```git
+git -c core.quotepath=false -c log.showSignature=false checkout release --force
+git -c core.quotepath=false -c log.showSignature=false push origin --delete release_mr
+git -c core.quotepath=false -c log.showSignature=false branch -D release_mr
+git -c core.quotepath=false -c log.showSignature=false checkout release --force
+git -c core.quotepath=false -c log.showSignature=false branch release_mr
+git -c core.quotepath=false -c log.showSignature=false checkout release_mr --force
+git -c core.quotepath=false -c log.showSignature=false checkout master --force
+git -c core.quotepath=false -c log.showSignature=false pull origin master:master
+git -c core.quotepath=false -c log.showSignature=false checkout release_mr --force
+git -c core.quotepath=false -c log.showSignature=false merge master -m "Merge branch 'master' into release_mr"
+git -c core.quotepath=false -c log.showSignature=false checkout master --force
+git -c core.quotepath=false -c log.showSignature=false push origin release_mr:release_mr --set-upstream -o merge_request.create -o merge_request.target=master -o merge_request.remove_source_branch -o merge_request.label=feat -o "merge_request.title=feat(web) 插件初始化" -o "merge_request.description=
+背景：
+我团收藏&推荐列表能查看自己
+修改：
+1. 我团收藏&推荐列表能查看自己
+影响：
+无
+"
+
+git -c core.quotepath=false -c log.showSignature=false checkout release --force
+git -c core.quotepath=false -c log.showSignature=false branch -D release_mr
+```
+
 # 提测
 提测会将当前分支合并到```origin/test```，在合并过程中如果出现冲突并且选择未解决，那么当前分支会切换到本地```test分支```，等待解决冲突；如果没有任何异常情况，那么合并完成后当前分支不会发生切换。
 > 当前分支必须是开发分支或者修复分支时，才允许提测。
@@ -219,6 +245,7 @@ git push origin --delete GFP_LOCK_BRANCH_NAME（解锁）
 # 注意事项
 > 在初始化插件之前必须先保证仓库中具有```origin/master```分支。
 > 每次使用插件操作分支时需保证本地文件均一提交。
+> 需要如下命令 ```git config pull.rebase false```
 
 
 # 作者信息
@@ -237,6 +264,8 @@ github 地址：https://github.com/wyh-chenfeng/layering-cache
 添加微信记得备注 ```GitFlowPlus```。
 
 ![微信](https://github.com/xiaolyuh/layering-cache/blob/master/images/wechat.png)
+
+
 
 
 
