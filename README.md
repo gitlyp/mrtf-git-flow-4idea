@@ -267,6 +267,20 @@ github 地址：https://github.com/wyh-chenfeng/layering-cache
 
 
 
+10:11 上午 Error
+hint: Pulling without specifying how to reconcile divergent branches is discouraged. You can squelch this message by running one of the following commands sometime before your next pull:
+hint:
+hint:   git config pull.rebase false  # merge (the default strategy)
+hint:   git config pull.rebase true   # rebase
+hint:   git config pull.ff only       # fast-forward only
+hint:
+hint: You can replace "git config" with "git config --global" to set a default
+hint: preference for all repositories. You can also pass --rebase, --no-rebase,
+hint: or --ff-only on the command line to override the configured default per
+hint: invocation.
+From ssh://git.longhu.net:8010/hr-business/myorg/gaia-hr-myorg
+! [rejected]          master     -> master  (non-fast-forward)
+
 
 
 
