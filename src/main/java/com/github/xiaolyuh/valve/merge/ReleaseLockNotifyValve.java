@@ -1,6 +1,7 @@
 package com.github.xiaolyuh.valve.merge;
 
 import com.github.xiaolyuh.action.options.TagOptions;
+import com.github.xiaolyuh.notify.ThirdPartyNotify;
 import com.intellij.openapi.project.Project;
 import git4idea.repo.GitRepository;
 
@@ -17,9 +18,11 @@ public class ReleaseLockNotifyValve extends Valve {
         return valve;
     }
 
+    ThirdPartyNotify thirdPartyNotify = ThirdPartyNotify.getInstance();
+
     @Override
     public boolean invoke(Project project, GitRepository repository, String sourceBranch, String targetBranch, TagOptions tagOptions) {
-        gitFlowPlus.thirdPartyNotify(repository);
+        thirdPartyNotify.lockNotify(repository);
         return true;
     }
 }

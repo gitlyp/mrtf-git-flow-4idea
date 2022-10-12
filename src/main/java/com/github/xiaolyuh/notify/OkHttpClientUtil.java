@@ -1,7 +1,12 @@
 package com.github.xiaolyuh.notify;
 
 import com.alibaba.fastjson.JSON;
-import okhttp3.*;
+import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +44,23 @@ public abstract class OkHttpClientUtil {
                 , JSON.toJSONString(param));
 
         return post(url, interfaceName, requestBody, param, null, clazz);
+    }
+
+    /**
+     * 发起 application/json 的 post 请求
+     *
+     * @param url           地址
+     * @param param         参数
+     * @param interfaceName 接口名称
+     * @return T
+     * @throws Exception Exception
+     */
+    public static <T> T postApplicationJson(String url, Object param, Map<String, String> headers, String interfaceName, Class<T> clazz) {
+        // 生成requestBody
+        RequestBody requestBody = FormBody.create(MediaType.parse("application/json; charset=utf-8")
+                , JSON.toJSONString(param));
+
+        return post(url, interfaceName, requestBody, param, headers, clazz);
     }
 
     /**

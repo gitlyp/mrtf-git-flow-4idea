@@ -2,6 +2,7 @@ package com.github.xiaolyuh.action.options;
 
 import com.github.xiaolyuh.i18n.LanguageEnum;
 
+import javax.swing.*;
 import java.util.Objects;
 
 /**
@@ -60,6 +61,16 @@ public class InitOptions {
      * 语言
      */
     private LanguageEnum language;
+
+    /**
+     * 云图梭 token
+     */
+    private String helloToken;
+
+    /**
+     * 消息接收人
+     */
+    private String recipient;
 
     public String getMasterBranch() {
         return masterBranch;
@@ -139,5 +150,22 @@ public class InitOptions {
 
     public void setLanguage(LanguageEnum language) {
         this.language = language;
+    }
+
+
+    public String getHelloToken() {
+        return helloToken;
+    }
+
+    public void setHelloToken(String helloToken) {
+        this.helloToken = helloToken;
+    }
+
+    public String getRecipient() {
+        return recipient;
+    }
+
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
     }
 }

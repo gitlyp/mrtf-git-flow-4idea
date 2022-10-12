@@ -1,9 +1,9 @@
 package com.github.xiaolyuh.ui;
 
 import com.github.xiaolyuh.action.options.InitOptions;
-import com.github.xiaolyuh.i18n.LanguageEnum;
 import com.github.xiaolyuh.i18n.I18n;
 import com.github.xiaolyuh.i18n.I18nKey;
+import com.github.xiaolyuh.i18n.LanguageEnum;
 import com.github.xiaolyuh.utils.ConfigUtil;
 import com.github.xiaolyuh.utils.GitBranchUtil;
 import com.google.common.collect.Lists;
@@ -46,6 +46,8 @@ public class InitPluginDialog extends DialogWrapper {
     private JLabel featureBranchPrefixLabel;
     private JLabel hotfixBranchPrefixLabel;
     private JLabel tagNamePrefixLabel;
+    private JTextField helloTokenTextField;
+    private JTextField recipientTextField;
 
     public InitPluginDialog(Project project) {
         super(project);
@@ -92,6 +94,8 @@ public class InitPluginDialog extends DialogWrapper {
         options.setReleaseFinishIsDeleteRelease(releaseFinishIsDeleteReleaseCheckBox.isSelected());
         options.setDingtalkToken(dingtalkTokenTextField.getText());
         options.setLanguage(LanguageEnum.getByLanguage((String) languageComboBox.getSelectedItem()));
+        options.setHelloToken(helloTokenTextField.getText());
+        options.setRecipient(recipientTextField.getText());
 
         return options;
     }
@@ -122,6 +126,8 @@ public class InitPluginDialog extends DialogWrapper {
             releaseFinishIsDeleteReleaseCheckBox.setSelected(false);
             releaseFinishIsDeleteFeatureCheckBox.setSelected(false);
             dingtalkTokenTextField.setText(options.get().getDingtalkToken());
+            helloTokenTextField.setText(options.get().getHelloToken());
+            recipientTextField.setText(options.get().getRecipient());
 
             languageSwitch();
         } else {
