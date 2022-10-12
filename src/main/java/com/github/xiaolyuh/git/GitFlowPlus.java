@@ -165,13 +165,6 @@ public interface GitFlowPlus {
     boolean isLock(GitRepository repository);
 
     /**
-     * 第三方通知
-     *
-     * @param repository repository
-     */
-    void thirdPartyNotify(GitRepository repository);
-
-    /**
      * 是否存在未提交文件
      *
      * @param project

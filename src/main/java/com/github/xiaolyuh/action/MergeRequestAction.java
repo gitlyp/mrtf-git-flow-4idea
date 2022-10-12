@@ -1,12 +1,15 @@
 package com.github.xiaolyuh.action;
 
+import com.github.xiaolyuh.action.options.MergeRequestOptions;
 import com.github.xiaolyuh.git.GitFlowPlus;
 import com.github.xiaolyuh.i18n.I18n;
 import com.github.xiaolyuh.i18n.I18nKey;
 import com.github.xiaolyuh.notify.NotifyUtil;
+import com.github.xiaolyuh.notify.ThirdPartyNotify;
 import com.github.xiaolyuh.ui.MergeRequestDialog;
 import com.github.xiaolyuh.utils.CollectionUtils;
 import com.github.xiaolyuh.utils.GitBranchUtil;
+import com.github.xiaolyuh.utils.StringUtils;
 import com.github.xiaolyuh.valve.merge.Valve;
 import com.intellij.ide.BrowserUtil;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -29,6 +32,7 @@ import java.util.Objects;
  */
 public class MergeRequestAction extends AbstractMergeAction {
     protected GitFlowPlus gitFlowPlus = GitFlowPlus.getInstance();
+    protected ThirdPartyNotify thirdPartyNotify = ThirdPartyNotify.getInstance();
 
     public MergeRequestAction() {
         super("Merge Request", "发起 code review", IconLoader.getIcon("/icons/mergeToTest.svg", AbstractNewBranchAction.class));
@@ -78,8 +82,10 @@ public class MergeRequestAction extends AbstractMergeAction {
                     return;
                 }
 
+                MergeRequestOptions mergeRequestOptions = mergeRequestDialog.getMergeRequestOptions();
+
                 // 将目标分支合并到当前future分支
-                String targetBranch = mergeRequestDialog.getMergeRequestOptions().getTargetBranch();
+                String targetBranch = mergeRequestOptions.getTargetBranch();
                 result = gitFlowPlus.mergeBranch(repository, targetBranch, tempBranchName);
                 if (!result.success()) {
                     NotifyUtil.notifyError(project, "Error", result.getErrorOutputAsJoinedString());
@@ -87,7 +93,7 @@ public class MergeRequestAction extends AbstractMergeAction {
                 }
 
                 // 发起merge request
-                result = gitFlowPlus.mergeRequest(repository, tempBranchName, targetBranch, mergeRequestDialog.getMergeRequestOptions());
+                result = gitFlowPlus.mergeRequest(repository, tempBranchName, targetBranch, mergeRequestOptions);
                 if (!result.success()) {
                     NotifyUtil.notifyError(project, "Error", result.getErrorOutputAsJoinedString());
                 }
@@ -96,6 +102,8 @@ public class MergeRequestAction extends AbstractMergeAction {
                     String address = result.getErrorOutput().get(2);
                     address = address.split("   ")[1];
                     BrowserUtil.browse(address);
+
+                    thirdPartyNotify.mergeRequestNotify(repository, mergeRequestOptions, address);
                 }
 
                 // 删除本地临时分支

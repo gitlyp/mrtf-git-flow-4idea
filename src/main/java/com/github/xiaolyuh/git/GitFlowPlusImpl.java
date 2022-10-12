@@ -243,23 +243,6 @@ public class GitFlowPlusImpl implements GitFlowPlus {
     }
 
     @Override
-    public void thirdPartyNotify(GitRepository repository) {
-        try {
-            String dingtalkToken = ConfigUtil.getConfig(repository.getProject()).get().getDingtalkToken();
-            if (StringUtils.isNotBlank(dingtalkToken)) {
-                String url = String.format("https://oapi.dingtalk.com/robot/send?access_token=%s", dingtalkToken);
-                String msg = getRemoteLastCommit(repository, Constants.LOCK_BRANCH_NAME);
-
-                msg = String.format(I18n.getContent(I18nKey.THIRD_PARTY_NOTIFY), repository.getProject().getName(), msg);
-                OkHttpClientUtil.postApplicationJson(url, new DingtalkMessage(msg), "钉钉通知接口", String.class);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e);
-        }
-    }
-
-    @Override
     public boolean isExistChangeFile(@NotNull Project project) {
 
         Collection<Change> changes = ChangeListManager.getInstance(project).getAllChanges();

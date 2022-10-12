@@ -28,6 +28,8 @@ public class MergeRequestDialog extends DialogWrapper {
     private JTextField titleTextField;
     private JTextArea messageTextArea;
     private JComboBox<String> targetBranchComboBox;
+    private JCheckBox noticeCheckBox;
+    private JTextField recipientTextField;
 
     public MergeRequestDialog(@Nullable Project project, String title, String message) {
         super(project);
@@ -41,6 +43,7 @@ public class MergeRequestDialog extends DialogWrapper {
 
         titleTextField.setText(title);
         messageTextArea.setText(message);
+        recipientTextField.setText(options.get().getRecipient());
     }
 
     public MergeRequestOptions getMergeRequestOptions() {
@@ -48,6 +51,8 @@ public class MergeRequestDialog extends DialogWrapper {
         tagOptions.setTargetBranch(StringUtils.trim(Objects.requireNonNull(targetBranchComboBox.getSelectedItem()).toString()));
         tagOptions.setTitle(StringUtils.trim(titleTextField.getText()));
         tagOptions.setMessage(StringUtils.trim(messageTextArea.getText()));
+        tagOptions.setNotice(noticeCheckBox.isSelected());
+        tagOptions.setRecipient(recipientTextField.getText());
         return tagOptions;
     }
 

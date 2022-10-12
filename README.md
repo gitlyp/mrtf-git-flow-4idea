@@ -137,6 +137,14 @@ git -c core.quotepath=false -c log.showSignature=false checkout release --force
 git -c core.quotepath=false -c log.showSignature=false branch -D release_mr
 ```
 
+# 云图梭消息配置
+1. 配置云图梭机器人&消息接收人OA（群主三连击群名称三个字可以获取机器人token）
+2. 在 Merge Request 时可以修改消息通知人，也可以选择是否送消息
+3. 消息接受者在云图梭收到消息后可以直接点击链接地址即可以进行Code Review操作
+
+![hello.gif](https://github.com/xiaolyuh/mrtf-git-flow-4idea/blob/master/images/hello.gif)
+
+
 # 提测
 提测会将当前分支合并到**测试**分支，在合并过程中如果出现冲突并且选择未解决，那么当前分支会切换到本地```test分支```，等待解决冲突；如果没有任何异常情况，那么合并完成后当前分支不会发生切换。
 
