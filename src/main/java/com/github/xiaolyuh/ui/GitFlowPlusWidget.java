@@ -1,6 +1,6 @@
 package com.github.xiaolyuh.ui;
 
-import com.github.xiaolyuh.action.FailureReleaseAction;
+import com.github.xiaolyuh.action.DeleteBranchAction;
 import com.github.xiaolyuh.action.FinishReleaseAction;
 import com.github.xiaolyuh.action.GitResolveConflictsAction;
 import com.github.xiaolyuh.action.HelpAction;
@@ -121,7 +121,9 @@ public class GitFlowPlusWidget extends EditorBasedWidget implements StatusBarWid
 
         popupGroup.add(new StartReleaseAction());
         popupGroup.add(new FinishReleaseAction());
-        popupGroup.add(new FailureReleaseAction());
+        popupGroup.add(new Separator());
+
+        popupGroup.add(new DeleteBranchAction());
         popupGroup.add(new Separator());
 
         popupGroup.add(new HelpAction());

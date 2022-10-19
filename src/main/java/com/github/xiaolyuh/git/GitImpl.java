@@ -283,6 +283,41 @@ public class GitImpl implements Git {
         return git.runCommand(h);
     }
 
+    @Override
+    public GitCommandResult getAllBranchList(GitRepository repository) {
+        //git show master  -s --format=%s-body:%b
+        GitRemote remote = getDefaultRemote(repository);
+        GitLineHandler h = new GitLineHandler(repository.getProject(), repository.getRoot(), GitCommand.BRANCH);
+        h.setSilent(false);
+        h.setStdoutSuppressed(false);
+        h.setUrls(remote.getUrls());
+
+        h.addParameters("-a");
+        h.addParameters("--sort", "committerdate");
+        h.addParameters("--format", "%(committerdate:short)@@@%(authorname)@@@%(refname:short)");
+
+        NotifyUtil.notifyGitCommand(repository.getProject(), h.printableCommandLine());
+        return git.runCommand(h);
+    }
+
+    @Override
+    public GitCommandResult getMergedBranchList(GitRepository repository, String data) {
+        //git log origin/master --after="2020-10-11" --grep="Merge branch 'feature" -i --format=%s-body:%b
+        GitRemote remote = getDefaultRemote(repository);
+        GitLineHandler h = new GitLineHandler(repository.getProject(), repository.getRoot(), GitCommand.LOG);
+        h.setSilent(false);
+        h.setStdoutSuppressed(false);
+        h.setUrls(remote.getUrls());
+
+        h.addParameters("origin/master", "-i", "-10000");
+        h.addParameters(String.format("--after=%s", data));
+        h.addParameters("--grep=Merge");
+        h.addParameters("--format=%s-body:%b");
+
+        NotifyUtil.notifyGitCommand(repository.getProject(), h.printableCommandLine());
+        return git.runCommand(h);
+    }
+
     private GitRemote getDefaultRemote(@NotNull GitRepository repository) {
         Collection<GitRemote> remotes = repository.getRemotes();
         if (CollectionUtils.isEmpty(remotes)) {

@@ -4,8 +4,6 @@ import com.github.xiaolyuh.i18n.I18n;
 import com.github.xiaolyuh.i18n.I18nKey;
 import com.github.xiaolyuh.utils.ConfigUtil;
 import com.github.xiaolyuh.valve.merge.ChangeFileValve;
-import com.github.xiaolyuh.valve.merge.UnLockCheckValve;
-import com.github.xiaolyuh.valve.merge.UnLockValve;
 import com.github.xiaolyuh.valve.merge.Valve;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;

@@ -1,14 +1,14 @@
 package com.github.xiaolyuh.action;
 
 import com.alibaba.fastjson.JSON;
-import com.github.xiaolyuh.git.GitFlowPlus;
 import com.github.xiaolyuh.action.options.InitOptions;
+import com.github.xiaolyuh.git.GitFlowPlus;
 import com.github.xiaolyuh.i18n.I18n;
 import com.github.xiaolyuh.i18n.I18nKey;
+import com.github.xiaolyuh.notify.NotifyUtil;
 import com.github.xiaolyuh.ui.InitPluginDialog;
 import com.github.xiaolyuh.utils.ConfigUtil;
 import com.github.xiaolyuh.utils.GitBranchUtil;
-import com.github.xiaolyuh.notify.NotifyUtil;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.progress.ProgressIndicator;
@@ -78,7 +78,7 @@ public class InitPluginAction extends AnAction {
                         if (result.success()) {
                             NotifyUtil.notifySuccess(myProject, "Success", String.format(I18n.getContent(I18nKey.NEW_BRANCH_SUCCESS), initOptions.getMasterBranch(), initOptions.getTestBranch()));
                         } else {
-                            NotifyUtil.notifyError(myProject, "Error", String.format(I18n.getContent(I18nKey.INIT_PLUGIN_ACTION$INIT_FAILURE), result.getErrorOutputAsJoinedString()));
+                            NotifyUtil.notifyError(myProject, "Error", String.format(I18n.getContent(I18nKey.INIT_PLUGIN_ACTION$NOT_EXIST_MASTER_INFO), initOptions.getTestBranch()));
                             return;
                         }
                     }
@@ -90,7 +90,7 @@ public class InitPluginAction extends AnAction {
                         if (result.success()) {
                             NotifyUtil.notifySuccess(myProject, "Success", String.format(I18n.getContent(I18nKey.NEW_BRANCH_SUCCESS), initOptions.getMasterBranch(), initOptions.getReleaseBranch()));
                         } else {
-                            NotifyUtil.notifyError(myProject, "Error", String.format(I18n.getContent(I18nKey.INIT_PLUGIN_ACTION$INIT_FAILURE), result.getErrorOutputAsJoinedString()));
+                            NotifyUtil.notifyError(myProject, "Error", String.format(I18n.getContent(I18nKey.INIT_PLUGIN_ACTION$NOT_EXIST_MASTER_INFO), initOptions.getReleaseBranch()));
                             return;
                         }
                     }

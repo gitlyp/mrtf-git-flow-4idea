@@ -9,7 +9,6 @@ import com.github.xiaolyuh.notify.ThirdPartyNotify;
 import com.github.xiaolyuh.ui.MergeRequestDialog;
 import com.github.xiaolyuh.utils.CollectionUtils;
 import com.github.xiaolyuh.utils.GitBranchUtil;
-import com.github.xiaolyuh.utils.StringUtils;
 import com.github.xiaolyuh.valve.merge.Valve;
 import com.intellij.ide.BrowserUtil;
 import com.intellij.openapi.actionSystem.AnActionEvent;
