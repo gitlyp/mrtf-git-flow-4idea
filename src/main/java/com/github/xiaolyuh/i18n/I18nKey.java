@@ -30,6 +30,8 @@ public abstract class I18nKey {
     public static final String FAILURE_RELEASE_ACTION$DIALOG_CONTENT = "FailureReleaseAction.DialogContent";
     public static final String FAILURE_RELEASE_ACTION$TASK_TITLE = "FailureReleaseAction.TaskTitle";
 
+    public static final String DELETE_BRANCH_ACTION$TEXT = "DeleteBranchAction.text";
+
     public static final String FINISH_RELEASE_ACTION$TEXT = "FinishReleaseAction.text";
     public static final String FINISH_RELEASE_ACTION$DIALOG_TITLE = "FinishReleaseAction.DialogTitle";
 

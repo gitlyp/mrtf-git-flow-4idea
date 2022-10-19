@@ -40,7 +40,13 @@
 # 插件配置
 每个仓库都需要进行插件初始化，配置完成后会生成一个```git-flow-plus.config```配置文件，**该文件需要添加到git版本管理中进行组内同步**，同步完成后组内成员可以共享配置。
 
-> 必须配置**主干分支**、**发布分支**、**测试分支**，这三个分支在仓库中已经存在，且不能是同一个分支。
+> 1. 必须配置**主干分支**、**发布分支**、**测试分支**，这三个分支在仓库中已经存在，且不能是同一个分支。
+> 2. 必须配置git全局用户信息
+```git
+git config --global user.name "hitsjt"
+git config --global user.email "hitsjt@gmail.com"
+```
+
 
 ![init.gif](https://github.com/xiaolyuh/mrtf-git-flow-4idea/blob/master/images/init.gif)
 

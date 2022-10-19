@@ -205,4 +205,20 @@ public interface Git {
      * @return
      */
     GitCommandResult mergeRequest(GitRepository repository, String sourceBranch, String targetBranch, MergeRequestOptions mergeRequestOptions);
+
+    /**
+     * 获取全部分支列表
+     *
+     * @param repository gitRepository
+     * @return
+     */
+    GitCommandResult getAllBranchList(GitRepository repository);
+
+    /**
+     * 获取已经Merged的分支列表
+     *
+     * @param repository gitRepository
+     * @return
+     */
+    GitCommandResult getMergedBranchList(GitRepository repository, String data);
 }

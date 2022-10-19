@@ -70,14 +70,18 @@ public class ThirdPartyNotify {
             if (!mergeRequestOptions.isNotice() || StringUtils.isBlank(mergeRequestOptions.getRecipient())) {
                 return;
             }
-            sendHelloMessage(repository, mergeRequestOptions, address);
-            sendDingtalkMessage(repository, mergeRequestOptions, address);
+            String email = gitFlowPlus.getUserEmail(repository);
+            if (StringUtils.isNotBlank(email)) {
+                email = email.split("@")[0];
+            }
+            sendHelloMessage(repository, mergeRequestOptions, address, email);
+            sendDingtalkMessage(repository, mergeRequestOptions, address, email);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    private void sendHelloMessage(GitRepository repository, MergeRequestOptions mergeRequestOptions, String address) {
+    private void sendHelloMessage(GitRepository repository, MergeRequestOptions mergeRequestOptions, String address, String submitter) {
         String helloToken = ConfigUtil.getConfig(repository.getProject()).get().getHelloToken();
         if (StringUtils.isNotBlank(helloToken) && StringUtils.isNotBlank(mergeRequestOptions.getRecipient())) {
             String sKey = Base64Utils.encodeToString(new byte[]{125, -90, -97, -15, -67, -38, -11, -3, -68, -31, -82, -4, -9, -66, 125, -13, 77, 61, -35, -18, -34, 115, -97, 90});
@@ -99,7 +103,7 @@ public class ThirdPartyNotify {
                     .filter(StringUtils::isNotBlank).collect(Collectors.toList());
 
             String message = accounts.stream().map(account -> "@" + account).collect(Collectors.joining(" "));
-            message += " 麻烦Merge下代码: \r\n" + address;
+            message += " 【" + submitter + "】发起了Merge Request请求，麻烦您CR&Merge下代码: \r\n" + address;
             jsonObject.put("content", message);
             Map<String, Object> param = new HashMap<>();
             param.put("objectName", "RC:TxtMsg");
@@ -112,7 +116,7 @@ public class ThirdPartyNotify {
         }
     }
 
-    private void sendDingtalkMessage(GitRepository repository, MergeRequestOptions mergeRequestOptions, String address) {
+    private void sendDingtalkMessage(GitRepository repository, MergeRequestOptions mergeRequestOptions, String address, String submitter) {
         String dingtalkToken = ConfigUtil.getConfig(repository.getProject()).get().getDingtalkToken();
         if (StringUtils.isNotBlank(dingtalkToken) && StringUtils.isNotBlank(mergeRequestOptions.getRecipient())) {
             String url = String.format("https://oapi.dingtalk.com/robot/send?access_token=%s", dingtalkToken);
@@ -123,7 +127,7 @@ public class ThirdPartyNotify {
                     .filter(StringUtils::isNotBlank).collect(Collectors.toList());
 
             String message = accounts.stream().map(account -> "@" + account).collect(Collectors.joining(" "));
-            message += " 麻烦Merge下代码: \r\n" + address;
+            message += " 【" + submitter + "】发起了Merge Request请求，麻烦您CR&Merge下代码: \r\n" + address;
 
             OkHttpClientUtil.postApplicationJson(url, new DingtalkMessage(message), "钉钉通知接口", String.class);
         }
