@@ -40,7 +40,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.apache.commons.lang3.compare.ComparableUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -90,17 +89,6 @@ public class GitFlowPlusImpl implements GitFlowPlus {
     }
 
     @Override
-    public void deleteBranch(@NotNull GitRepository repository,
-                                         @Nullable String branchName,
-                                         @Nullable boolean isDeleteLocalBranch) {
-
-        if (isDeleteLocalBranch) {
-            git.deleteLocalBranch(repository, branchName);
-        }
-        git.deleteRemoteBranch(repository, branchName);
-    }
-
-@Override
     public GitCommandResult deleteBranch(@NotNull GitRepository repository,
                                          @Nullable String checkoutBranchName,
                                          @Nullable String branchName) {
