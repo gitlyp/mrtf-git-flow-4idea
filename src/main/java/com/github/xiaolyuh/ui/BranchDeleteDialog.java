@@ -5,6 +5,7 @@ import com.github.xiaolyuh.action.options.InitOptions;
 import com.github.xiaolyuh.action.vo.BranchVo;
 import com.github.xiaolyuh.git.GitFlowPlus;
 import com.github.xiaolyuh.utils.ConfigUtil;
+import com.github.xiaolyuh.utils.StringUtils;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import git4idea.repo.GitRepository;
@@ -29,6 +30,7 @@ public class BranchDeleteDialog extends DialogWrapper {
     private JCheckBox isDeleteLocalBranchBox;
     private JTable branchTable;
     private JButton searchButton;
+    private JTextField branchNameField;
 
     private DeleteBranchOptions deleteBranchOptions = new DeleteBranchOptions();
 
@@ -48,10 +50,14 @@ public class BranchDeleteDialog extends DialogWrapper {
 
     public void refreshDeleteBranchList(GitRepository repository) {
         InitOptions initOptions = ConfigUtil.getConfig(repository.getProject()).get();
+        // 日期过滤
         List<BranchVo> allBranches = getBranchListFilterDate(repository);
-        // 删除已上线分支
-        // 删除全部开发分支
-        // 删除全部分支
+
+        if (StringUtils.isNotBlank(branchNameField.getText())) {
+            // 分支名称过滤
+            allBranches = allBranches.stream().filter(branchVo -> branchVo.getBranch().contains(branchNameField.getText())).collect(Collectors.toList());
+        }
+
         String selectedItem = (String) deleteModel.getSelectedItem();
         switch (Objects.requireNonNull(selectedItem)) {
 
