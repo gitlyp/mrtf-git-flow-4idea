@@ -13,6 +13,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.IconLoader;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import git4idea.repo.GitRepository;
@@ -61,14 +62,21 @@ public class DeleteBranchAction extends AbstractMergeAction {
             return;
         }
 
-        new Task.Backgroundable(project, "Delete Branch", false) {
+        int flag = Messages.showOkCancelDialog(project, "是否确认删除当前分支",
+                "删除分支", I18n.getContent(I18nKey.OK_TEXT), I18n.getContent(I18nKey.CANCEL_TEXT),
+                IconLoader.getIcon("/icons/warning.svg", AbstractNewBranchAction.class));
+        if (flag != 0) {
+            return;
+        }
+
+        new Task.Backgroundable(project, "是否确实删除当前分支", false) {
             @Override
             public void run(@NotNull ProgressIndicator indicator) {
                 NotifyUtil.notifyGitCommand(event.getProject(), "===================================================================================");
-                DeleteBranchOptions mergeRequestOptions = branchDeleteDialog.getDeleteBranchOptions();
+                DeleteBranchOptions deleteBranchOptions = branchDeleteDialog.getDeleteBranchOptions();
 
-                mergeRequestOptions.getBranches().forEach(branchVo -> {
-                    gitFlowPlus.deleteBranch(repository, branchVo.getBranch(), mergeRequestOptions.isDeleteLocalBranch());
+                deleteBranchOptions.getBranches().forEach(branchVo -> {
+                    gitFlowPlus.deleteBranch(repository, branchVo.getBranch(), deleteBranchOptions.isDeleteLocalBranch());
                 });
 
                 // 刷新
