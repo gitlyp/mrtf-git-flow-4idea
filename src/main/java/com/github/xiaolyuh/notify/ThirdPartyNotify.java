@@ -11,13 +11,12 @@ import com.github.xiaolyuh.notify.hello.IsvUtil;
 import com.github.xiaolyuh.utils.ConfigUtil;
 import com.github.xiaolyuh.utils.StringUtils;
 import git4idea.repo.GitRepository;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * 第三方通知服务
