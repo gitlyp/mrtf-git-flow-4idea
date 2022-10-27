@@ -29,6 +29,10 @@ patchPluginXml {
     sinceBuild = mgfPluginSinceBuild
     untilBuild = mgfPluginUntilBuild
     changeNotes = """
+
+        <em>1.1.14<em></br
+        <em>1. 解决初始化机器人token不生效问题<em></br> 
+
         <em>1.1.12<em></br
         <em>1. 初始化配置不去新建分支，分支只能选择已有分支<em></br> 
         <em>2. 分支删除  删除全部分支、删除几天之外的分支、删除已经合并到主干的分支<em></br> 
